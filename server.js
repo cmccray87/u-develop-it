@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // Connect to database
-const db = mysql.createConnection(
+const db = mysql.createConnection(  
     {
       host: 'localhost',
       // Your MySQL username,
@@ -21,9 +21,39 @@ const db = mysql.createConnection(
     console.log('Connected to the election database.')
   );
 
-  db.query(`SELECT * FROM candidates`, (err, rows) => {
-    console.log(rows);
-  });
+// Create a candidate
+const sql = `INSERT INTO candidates (id, first_name, last_name, industry_connected) 
+              VALUES (?,?,?,?)`;
+const params = [1, 'Ronald', 'Firbank', 1];
+
+db.query(sql, params, (err, result) => {
+  if (err) {
+    console.log(err);
+  }
+  console.log(result);
+});
+
+// Delete a candidate
+// db.query(`DELETE FROM candidates WHERE id = ?`, 1, (err, result) => {
+//     if (err) {
+//       console.log(err);
+//     }
+//     console.log(result);
+//   });
+
+
+  // display particular candidate
+//   db.query('SELECT * FROM candidates WHERE id = 1', (err, rows) => {  // This selects first row in table
+//       if (err) {
+//           console.log(err);
+//       }
+//       console.log(rows);
+//   });
+
+ // display all candidates
+ // db.query(`SELECT * FROM candidates`, (err, rows) => {
+ //   console.log(rows);
+ // });
 
 // Default response for any other request (Not Found)
 app.use((req, res) => {
